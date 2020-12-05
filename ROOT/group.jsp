@@ -6,7 +6,33 @@
 %>
 <!DOCTYPE html>
 <html>
-<head><title><%=groupname %></title></head>
+<head>
+<title><%=groupname %></title>
+<style>
+.flex-container {
+    display: flex;
+}
+.flex-container > div {
+    flex: 1;
+}
+.flex-box {
+    margin: 5px;
+    padding-left: 20px;
+    border-radius: 25px;
+    border: 2px solid;
+    height: 400px;
+}
+#process_required {
+    background: #ff7777;
+}
+#send_required {
+    background: #66b3ff;
+}
+#accepted {
+    background: #99ff99;
+}
+</style>
+</head>
 <body>
 <%@ include file="top.jsp" %>
 <%
@@ -50,8 +76,35 @@
     <div style="width: 75%;" align="left">
         <h1><%= groupname %></h1>
         <h2><%= groupdesc %></h2>
-        Admin: <b style="color: red;"><%= adminName %></b> <br>
-        Financial Agent: <b style="color: blue;"><%= faName %></b>
+        관리자: <b style="color: red;"><%= adminName %></b> <br>
+        총무: <b style="color: blue;"><%= faName %></b> <br>
+        멤버: <b>| </b>
+<%
+    // get group description
+    mySQL = "select distinct m.username from fishy_member m, fishy_membergroup mg where mg.groupid="  + groupid + " and m.username not in ("
+    + "(select m.username from fishy_member m, fishy_group g where m.memberid=g.adminid and g.groupid =" + groupid + ")"
+    + " UNION (select m.username from fishy_member m, fishy_group g where m.memberid=g.financialagentid and g.groupid =" + groupid + "))";
+	myResultSet = stmt.executeQuery(mySQL);
+    while(myResultSet.next()) {
+        String participant = myResultSet.getString("username");
+%>
+    <b><%= participant %> | </b>
+<%
+    }
+%>
+        <div class="flex-container">
+            <div class="flex-box" id="process_required">
+                <h3> 처리를 기다리는 중 </h3>
+            </div>
+            <div class="flex-box" id="send_required">
+                <h3> 송금을 기다리는 중 </h3>
+            </div>
+        </div>
+        <div class="flex-container">
+            <div class="flex-box" id="accepted"">
+                <h3> 완료됨 </h3>
+            </div>
+        </div>
     </div>
 </div>
 <%
