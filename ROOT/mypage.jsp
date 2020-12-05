@@ -57,24 +57,23 @@
 <%-- 이 멤버가 속해 있는 그룹 정보 --%>
 <table width="75%" align="center" border>
 <tr>
-	<th>그룹</th>
+	<th rowspan=0>그룹</th>
 </tr>
 <%
-	mySQL = "select g.groupname from fishy_group g, fishy_membergroup mg where mg.memberid=" + session_id + "and g.groupid=mg.groupid";
+	mySQL = "select g.groupname, g.groupid from fishy_group g, fishy_membergroup mg where mg.memberid=" + session_id + "and g.groupid=mg.groupid";
 	myResultSet = stmt.executeQuery(mySQL);
 	while(myResultSet.next()) {
 		String groupname = myResultSet.getString("groupname");
+		String groupid = myResultSet.getString("groupid");
 %>
 <tr>
-	<td><%= groupname %></td>
+	<td style="width: 92%;"><%= groupname %></td> <td><button onclick="location.href='group.jsp?groupname=<%=groupname %>&groupid=<%=groupid%>'">그룹 보기</button></td>
 </tr>
 <%		
 	}
-	
+	stmt.close();  
+	myConn.close();
 %>
-<tr>
-	
-</tr>
 </table>
 </body>
 </html>
