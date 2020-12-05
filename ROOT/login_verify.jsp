@@ -17,13 +17,13 @@
 	myConn = DriverManager.getConnection(dburl, user, passwd);
 	stmt = myConn.createStatement();
 
-	mySQL = "select s_id, s_name from student where s_id='" + userID + "' and s_pwd='" + userPassword + "'";
+	mySQL = "select memberid, username from fishy_member where username='" + userID + "' and password='" + userPassword + "'";
 
 	ResultSet myResultSet = stmt.executeQuery(mySQL);
 
 	if (myResultSet.next()) {
-		session.setAttribute("user", userID);
-		session.setAttribute("userName", myResultSet.getString("s_name"));
+		session.setAttribute("user", myResultSet.getString("memberid"));
+		session.setAttribute("userName", userID);
 		response.sendRedirect("index.jsp");
 	} else {
 %>
