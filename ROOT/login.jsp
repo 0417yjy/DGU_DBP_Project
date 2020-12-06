@@ -3,7 +3,8 @@
 <html>
 <head><title>수강신청 시스템 로그인</title></head>
 <body>
-	<table width="75%" align="center" bgcolor="#FFFF99" border>
+	<%@ include file="top.jsp" %>
+	<table width="75%" align="center" bgcolor="#65d2f3" border>
 	 	<tr>
 			<td><div align"center">아이디와 패스워드를 입력하세요</div></td>
 		</tr>
