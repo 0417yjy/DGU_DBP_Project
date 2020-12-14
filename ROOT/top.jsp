@@ -48,9 +48,7 @@
 			<td align="center"><b><%=log%></b></td>
 			<td align="center"><b><a style="color: white;" href="mypage.jsp">마이페이지</b></td>
 			<td align="center"><b><a style="color: white;" href="join.jsp">그룹에 참여</b></td>
-			<td align="center"><b><a style="color: white;" href="delete.jsp">송금 요청하기</b></td>
-			<td align="center"><b><a style="color: white;" href="select.jsp">송금하기</b></td>
-			<td align="center"><b><a style="color: white;" href="select.jsp">받은 송금 처리하기</b></td>
+			<td align="center"><b><a style="color: white;" href="request_tx.jsp">송금 요청하기</b></td>
 		</tr>
 	</table>
 	</div>
