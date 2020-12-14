@@ -67,7 +67,9 @@
 		String groupid = myResultSet.getString("groupid");
 %>
 <tr>
-	<td style="width: 92%;"><%= groupname %></td> <td><button onclick="location.href='group.jsp?groupname=<%=groupname %>&groupid=<%=groupid%>'">그룹 보기</button></td>
+	<td style="width: 90%;"><a href='group.jsp?groupname=<%=groupname %>&groupid=<%=groupid%>'><%= groupname %></a></td>
+	<td><button onclick="location.href='group_manage.jsp?groupid=<%=groupid%>&memberid=<%=session_id%>'">그룹 관리</button></td>
+	<td><button onclick="location.href='group_exit.jsp?groupid=<%=groupid%>&memberid=<%=session_id%>'">그룹 탈퇴</button></td>
 </tr>
 <%		
 	}
