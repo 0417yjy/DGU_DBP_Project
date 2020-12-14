@@ -20,21 +20,20 @@
 
 	mySQL = "insert into fishy_membergroup values (" + session_id + "," + groupid + ", NULL, SYSDATE, 0)";
 
-	int affectedRows = stmt.executeUpdate(mySQL);
-
-	if (affectedRows != 0) {
+	try {
+		int affectedRows = stmt.executeUpdate(mySQL);
 %>
     <script>
         alert("참여 요청을 보냈습니다.");
     </script>
 <%        
 		response.sendRedirect(url);
-	} else {
+	} catch (SQLException ex) {
+		System.err.println("SQLException: " + ex.getMessage());
 %>
-
     <script>
         alert("이미 참여 중인 그룹입니다.");
-        response.sendRedirect(url);
+        location.href('join.jsp');
     </script>
 <%
 	}
