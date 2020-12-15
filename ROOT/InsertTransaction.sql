@@ -14,12 +14,14 @@ CREATE OR REPLACE PROCEDURE INSERTTRANSACTION  (
     space_included EXCEPTION;
     not_number_detected EXCEPTION;
     range_exception EXCEPTION;
+    not_permitted EXCEPTION;
 
     nBlank NUMBER;
     nAmount NUMBER;
     dAriseDate DATE;
     dDueDate DATE;
     nCurrentMaxTxid NUMBER;
+    nPermission NUMBER;
 BEGIN
     result := '';
 
@@ -45,6 +47,15 @@ BEGIN
     nAmount := TO_NUMBER(sAmount);
     IF nAmount <= 0 THEN
         RAISE range_exception;
+    END IF;
+
+    /* 예외 5: 트랜잭션 생성 퍼미션이 없음 */
+    SELECT permissionlevel
+    INTO nPermission
+    FROM fishy_membergroup
+    WHERE memberid=TO_NUMBER(sFromWho) AND groupid=TO_NUMBER(sGroupID);
+    IF nPermission <= 1 THEN
+        RAISE not_permitted;
     END IF;
 
     /* 정상 작동 */
@@ -78,6 +89,8 @@ BEGIN
     result := 'Adding Impossible(Reason: You cannot insert other character into amount)';
     WHEN range_exception THEN
     result := 'Adding Impossible(Reason: Amount should be from 0 to 100)';
+    WHEN not_permitted THEN
+    result := 'Adding Impossible(Reason: Permission not granted)';
     WHEN OTHERS THEN
     ROLLBACK;
     result := SQLCODE;
